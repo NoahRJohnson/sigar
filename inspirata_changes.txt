@@ -1,0 +1,27 @@
+BUILDING SIGAR
+--------------
+https://support.hyperic.com/display/SIGAR/Home
+install JDK >= 1.4, Ant >= 1.6.5, Perl >= 5.6.1 (I used Strawberry), Visual Studio 2015, Windows SDK
+
+Set up command prompt environment
+---------------------------------
+Set JAVA_HOME and ANT_HOME variables in your Windows system. Add JAVA_HOME to your %PATH% variable.
+REMOVE the entry in your PATH variable which your Perl install may have put there, which has gcc.exe in it. We want to force the use of cl.exe
+add the location of rc.exe, which comes with Windows SDK, into PATH 
+run "vcvarsall.bat amd64" to configure cl.exe to target x64 architecture
+go to "{sigar-root}\bindings\java\" and run "ant" command
+
+I already changed two calls to wcstok() in eventlog.c, to use the third argument specified here: http://man7.org/linux/man-pages/man3/wcstok.3.html
+ it only had 2 args before due to using an older library
+ 
+eventlog.c win32_set_pointer() seems to assume that pointers are the same size as ints.. this is a problem on 64-bit machines. But no java class in the library
+ appears to actually call the EventLog java class, outside of main() functions which shouldn't be run... so this shouldn't run normally unless we explicitly call it.
+ Let's pray this doesn't cause a crash. Boo on this code
+ 
+I took the lazy approach of adding these three lines to sigar.h:
+#ifndef __64BIT__
+#define __64BIT__
+#endif
+	instead of trying to figure out how to pass in environment variables through Ant. This should fix the 64-bit pointer bug described here:
+	https://communities.vmware.com/message/2121479#2121479
+	I pray that no other similar pointer bugs cause crashes. If they do, they should also cause EXCEPTION_ACCESS_VIOLATION errors.

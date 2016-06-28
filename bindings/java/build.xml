@@ -99,6 +99,7 @@
            source="1.4" target="1.4"
            sourcepath=""
            debug="true"
+           includeantruntime="false"
            classpathref="libjars">
       <src path="${src}"/>
       <src path="${build}/src"/>

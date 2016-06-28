@@ -160,7 +160,7 @@
 
     <echo message="jni.src=${jni.src}, jni.jdk.os=${jni.jdk.os}, ${sun.arch.data.model}-bit"/>
 
-    <javac srcdir="${jni.src.java}" destdir="${build}/classes" debug="true"
+    <javac includeantruntime="false" srcdir="${jni.src.java}" destdir="${build}/classes" debug="true"
            source="1.4" target="1.4"
 	   includes="org/hyperic/jni/*.java"/>
 
@@ -262,12 +262,15 @@
     <mkdir dir="${jni.objdir}/lib"/>
 
     <echo message="jni libname=${jni.libname}"/>
+    <echo message="dfdfd=${jni.objdir}/lib/${jni.libname}"/>
 
     <cc outtype="shared"
 	outfile="${jni.objdir}/lib/${jni.libname}"
 	objdir="${jni.objdir}"
         runtime="${cc.runtime}"
 	relentless="false">
+
+
 
       <!-- HPUX -->
       <compiler name="hp"  if="hpux">

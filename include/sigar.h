@@ -17,6 +17,10 @@
 #ifndef SIGAR_H
 #define SIGAR_H
 
+#ifndef __64BIT__
+#define __64BIT__
+#endif
+
 /* System Information Gatherer And Reporter */
 
 #include <limits.h>

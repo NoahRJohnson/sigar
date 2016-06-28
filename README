@@ -1,2 +1,5 @@
 Visit the SIGAR Wiki for documentation, bugs, support, etc.:
 http://sigar.hyperic.com/
+
+INSPIRATA:
+Rebuilt with __64BIT__ macro defined, to fix this bug: https://communities.vmware.com/message/2121479#2121479
